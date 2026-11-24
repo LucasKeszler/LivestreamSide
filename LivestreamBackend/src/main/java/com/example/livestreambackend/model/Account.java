@@ -66,20 +66,7 @@ public class Account {
         return createdAt;
     }
 
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public void setPasswordHash(String passwordHash) {
         this.passwordHash = passwordHash;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
     }
 }
