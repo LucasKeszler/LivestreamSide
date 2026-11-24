@@ -2,15 +2,17 @@ package com.example.livestreambackend.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 
 /**
- * Minimal sikkerhedsopsætning, så "Opret konto" er tilgængelig uden login.
- * Login-featuren (egen login-side, UserDetailsService) og adgangsregler for
- * videoer/admin bygges videre herfra. Ret blot reglerne nedenfor.
+ * Adgangsregler, login og logout.
+ *
+ * Alt, der ikke står i listen over offentlige sider, kræver login.
+ * Køb er derfor automatisk kun for indloggede brugere.
+ * Når katalog- og videosider bygges, skal deres URL'er tilføjes til permitAll,
+ * så gæster kan se dem.
  */
 @Configuration
 @EnableWebSecurity
@@ -23,8 +25,18 @@ public class SecurityConfig {
                         .requestMatchers("/", "/register", "/login", "/error",
                                 "/css/**", "/js/**", "/images/**").permitAll()
                         .anyRequest().authenticated())
-                .formLogin(Customizer.withDefaults())
-                .logout(Customizer.withDefaults());
+                .formLogin(form -> form
+                        .loginPage("/login")
+                        .usernameParameter("email")
+                        // Ved forkert login sendes brugeren til /login?error med en generel fejlbesked.
+                        .failureUrl("/login?error")
+                        // Efter login: tilbage til den side, man prøvede at åbne, ellers forsiden.
+                        .defaultSuccessUrl("/", false)
+                        .permitAll())
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/login?logout")
+                        .permitAll());
         return http.build();
     }
 }
