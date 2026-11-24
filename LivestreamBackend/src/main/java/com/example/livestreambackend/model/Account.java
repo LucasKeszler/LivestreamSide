@@ -28,7 +28,7 @@ public class Account {
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
-    private static String normalizeEmail(String email) {
+    public static String normalizeEmail(String email) {
         return email.trim().toLowerCase();
     }
 

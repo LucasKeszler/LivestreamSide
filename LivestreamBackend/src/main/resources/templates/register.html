@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="da" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Opret konto</title>
+</head>
+<body>
+<main>
+    <h1>Opret konto</h1>
+
+    <!-- th:action tilføjer automatisk CSRF-token, som Spring Security kræver -->
+    <form th:action="@{/register}" th:object="${form}" method="post" novalidate>
+        <div>
+            <label for="name">Navn</label>
+            <input id="name" type="text" th:field="*{name}" autocomplete="name" required>
+            <p class="error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
+        </div>
+
+        <div>
+            <label for="email">E-mail</label>
+            <input id="email" type="email" th:field="*{email}" autocomplete="email" required>
+            <p class="error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
+        </div>
+
+        <div>
+            <label for="password">Adgangskode</label>
+            <input id="password" type="password" th:field="*{password}" autocomplete="new-password" required>
+            <p class="error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
+        </div>
+
+        <div>
+            <label for="confirmPassword">Gentag adgangskode</label>
+            <input id="confirmPassword" type="password" th:field="*{confirmPassword}" autocomplete="new-password" required>
+            <p class="error" th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}"></p>
+        </div>
+
+        <button type="submit">Opret konto</button>
+    </form>
+
+    <p>Har du allerede en konto? <a th:href="@{/login}">Log ind</a></p>
+</main>
+</body>
+</html>
