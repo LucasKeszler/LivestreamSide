@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="da" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Admin – Events</title>
+</head>
+<body>
+<main>
+    <h1>Events</h1>
+
+    <p class="success" th:if="${param.created}">Eventet er oprettet.</p>
+
+    <section>
+        <h2>Opret event</h2>
+
+        <!-- th:action tilføjer automatisk CSRF-token, som Spring Security kræver -->
+        <form th:action="@{/admin/events}" th:object="${form}" method="post" novalidate>
+            <div>
+                <label for="year">År</label>
+                <input id="year" type="number" th:field="*{year}" min="2000" max="2100" required>
+                <p class="error" th:if="${#fields.hasErrors('year')}" th:errors="*{year}"></p>
+            </div>
+
+            <div>
+                <label for="title">Titel</label>
+                <input id="title" type="text" th:field="*{title}" placeholder="Folkemødet 2026" required>
+                <p class="error" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></p>
+            </div>
+
+            <div>
+                <label for="location">Sted</label>
+                <input id="location" type="text" th:field="*{location}" placeholder="Allinge, Bornholm" required>
+                <p class="error" th:if="${#fields.hasErrors('location')}" th:errors="*{location}"></p>
+            </div>
+
+            <div>
+                <label for="yearPassPrice">Årspaspris (kr.)</label>
+                <input id="yearPassPrice" type="number" th:field="*{yearPassPrice}" min="0.01" step="0.01" required>
+                <p class="error" th:if="${#fields.hasErrors('yearPassPrice')}" th:errors="*{yearPassPrice}"></p>
+            </div>
+
+            <button type="submit">Opret event</button>
+        </form>
+    </section>
+
+    <section>
+        <h2>Eksisterende events</h2>
+
+        <p th:if="${#lists.isEmpty(events)}">Der er ingen events endnu.</p>
+
+        <table th:unless="${#lists.isEmpty(events)}">
+            <thead>
+            <tr>
+                <th>År</th>
+                <th>Titel</th>
+                <th>Sted</th>
+                <th>Årspaspris</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="event : ${events}">
+                <td th:text="${event.year}">2026</td>
+                <td th:text="${event.title}">Folkemødet 2026</td>
+                <td th:text="${event.location}">Allinge</td>
+                <td th:text="${#numbers.formatDecimal(event.yearPassPrice, 1, 'POINT', 2, 'COMMA')} + ' kr.'">299,00 kr.</td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+</main>
+</body>
+</html>

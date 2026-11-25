@@ -10,4 +10,6 @@ public interface EventRepository extends JpaRepository<Event, Long> {
     List<Event> findAllByOrderByYearDesc();
 
     boolean existsByYear(int year);
+
+    boolean existsByTitle(String title);
 }
