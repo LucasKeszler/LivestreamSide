@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="da" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Søg i videoer</title>
+</head>
+<body>
+<main>
+    <h1>Søg i videoer</h1>
+
+    <!-- GET, so the search ends up in the URL and can be shared as a link -->
+    <form th:action="@{/search}" method="get" role="search">
+        <div>
+            <label for="q">Søg i titel og taler</label>
+            <input id="q" name="q" type="search" th:value="${q}" placeholder="Fx klima eller et navn">
+        </div>
+
+        <div>
+            <label for="year">År</label>
+            <select id="year" name="year">
+                <option value="">Alle år</option>
+                <option th:each="y : ${years}" th:value="${y}" th:text="${y}"
+                        th:selected="${y == year}">2026</option>
+            </select>
+        </div>
+
+        <button type="submit">Søg</button>
+    </form>
+
+    <p th:if="${!results.isEmpty()}"
+       th:text="${results.size() == 1} ? '1 video fundet' : ${results.size()} + ' videoer fundet'">3 videoer fundet</p>
+
+    <!-- Clear message when nothing matches (acceptance criterion) -->
+    <p class="no-results" th:if="${results.isEmpty()}">
+        Ingen videoer matcher din søgning. Prøv et andet ord eller vælg "Alle år".
+    </p>
+
+    <ul class="results" th:unless="${results.isEmpty()}">
+        <li th:each="video : ${results}">
+            <h2 th:text="${video.title}">Videotitel</h2>
+            <p>
+                <span th:text="${video.eventTitle}">Folkemødet 2026</span>
+                (<span th:text="${video.year}">2026</span>)
+            </p>
+            <p th:unless="${video.speakerNames.isEmpty()}">
+                Talere: <span th:text="${#strings.listJoin(video.speakerNames, ', ')}">Navn, Navn</span>
+            </p>
+            <p>
+                Pris: <span th:text="${#numbers.formatDecimal(video.price, 1, 'POINT', 2, 'COMMA')} + ' kr.'">49,00 kr.</span>
+                <span th:unless="${video.available}">(kommer snart)</span>
+            </p>
+        </li>
+    </ul>
+</main>
+</body>
+</html>
