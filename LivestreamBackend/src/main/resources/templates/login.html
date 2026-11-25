@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="da" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Log ind</title>
+</head>
+<body>
+<main>
+    <h1>Log ind</h1>
+
+    <p class="success" th:if="${param.registered}">Din konto er oprettet. Du kan nu logge ind.</p>
+    <p class="success" th:if="${param.logout}">Du er nu logget ud.</p>
+    <!-- Samme besked uanset om e-mailen findes eller adgangskoden er forkert -->
+    <p class="error" th:if="${param.error}">Forkert e-mail eller adgangskode.</p>
+
+    <!-- th:action tilføjer automatisk CSRF-token, som Spring Security kræver -->
+    <form th:action="@{/login}" method="post">
+        <div>
+            <label for="email">E-mail</label>
+            <input id="email" name="email" type="email" autocomplete="email" required autofocus>
+        </div>
+
+        <div>
+            <label for="password">Adgangskode</label>
+            <input id="password" name="password" type="password" autocomplete="current-password" required>
+        </div>
+
+        <button type="submit">Log ind</button>
+    </form>
+
+    <p>Har du ikke en konto? <a th:href="@{/register}">Opret konto</a></p>
+</main>
+</body>
+</html>
