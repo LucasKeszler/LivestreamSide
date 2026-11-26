@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="da" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<body>
+
+<!--
+    Genbrugelig login/logout-del til headeren.
+    Indsæt den hvor som helst med:
+        <div th:replace="~{fragments/auth :: authLinks}"></div>
+-->
+<div th:fragment="authLinks" class="auth-links">
+    <th:block sec:authorize="isAnonymous()">
+        <a th:href="@{/login}">Log ind</a>
+        <a th:href="@{/register}">Opret konto</a>
+    </th:block>
+
+    <th:block sec:authorize="isAuthenticated()">
+        <span sec:authentication="name"></span>
+        <!-- Logout skal være en POST-formular med CSRF-token, ikke et almindeligt link -->
+        <form th:action="@{/logout}" method="post" style="display:inline">
+            <button type="submit">Log ud</button>
+        </form>
+    </th:block>
+</div>
+
+</body>
+</html>
