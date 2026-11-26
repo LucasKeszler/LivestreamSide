@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="da" xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<!--
+    Shared footer for every page. Insert it at the bottom of <body> with:
+        <footer th:replace="~{fragments/footer :: footer}"></footer>
+    "company" is added to every page by CompanyInfoAdvice.
+    The ?. makes the footer safe even if company is missing (e.g. in a test).
+-->
+<footer th:fragment="footer" class="site-footer">
+    <p>
+        <span th:text="${company?.name}">Virksomhedens navn</span>
+        · CVR: <span th:text="${company?.cvr}">00000000</span>
+        · <a th:href="@{/terms}">Handelsbetingelser</a>
+        · <a th:href="@{/privacy}">Privatlivspolitik</a>
+    </p>
+</footer>
+
+</body>
+</html>

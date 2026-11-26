@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="da" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Handelsbetingelser</title>
+</head>
+<body>
+<!--
+    DRAFT: This text is a starting point for a school project and has not been reviewed by a lawyer.
+    The company details are set in application.properties (company.*).
+-->
+<main>
+    <h1>Handelsbetingelser</h1>
+
+    <h2>1. Sælger</h2>
+    <p>
+        <span th:text="${company?.name}">Virksomhedens navn</span><br>
+        CVR: <span th:text="${company?.cvr}">00000000</span><br>
+        <span th:text="${company?.address}">Adresse</span><br>
+        E-mail: <a th:href="'mailto:' + ${company?.email}" th:text="${company?.email}">kontakt@example.dk</a>
+    </p>
+
+    <h2>2. Hvad du køber</h2>
+    <p>Du køber digital adgang til optagede debatter fra Folkemødet. Du kan købe:</p>
+    <ul>
+        <li><strong>En enkelt video:</strong> adgang til at se én bestemt video.</li>
+        <li><strong>Et årspas:</strong> adgang til alle videoer fra ét års Folkemøde.</li>
+    </ul>
+    <p>Adgangen er personlig og knyttet til din konto. Du må ikke dele din konto eller videoerne med andre.</p>
+
+    <h2>3. Priser og betaling</h2>
+    <p>Alle priser er i danske kroner (DKK) og inkl. moms. Prisen, du ser, når du køber, er den pris, du betaler.</p>
+
+    <h2>4. Levering</h2>
+    <p>Du får adgang til det købte med det samme efter købet. Du finder dine køb under "Mine køb", når du er logget ind.</p>
+
+    <h2>5. Fortrydelsesret</h2>
+    <p>
+        Som forbruger har du normalt 14 dages fortrydelsesret. Ved køb af digitalt indhold, der ikke leveres
+        på et fysisk medium, bortfalder fortrydelsesretten, når leveringen er begyndt, hvis du forud for købet
+        har givet udtrykkeligt samtykke til, at leveringen begynder med det samme, og har anerkendt, at du
+        dermed mister din fortrydelsesret, jf. forbrugeraftaleloven.
+    </p>
+    <p>Du bliver bedt om at give dette samtykke, før du gennemfører et køb.</p>
+
+    <h2>6. Reklamation</h2>
+    <p>
+        Hvis en video ikke virker som beskrevet, har du reklamationsret efter købelovens regler.
+        Kontakt os på e-mailen ovenfor med en beskrivelse af problemet, så hjælper vi dig.
+    </p>
+
+    <h2>7. Klage</h2>
+    <p>
+        Hvis du vil klage over et køb, så kontakt os først. Finder vi ikke en løsning, kan du klage til
+        Center for Klageløsning, Nævnenes Hus, via <a href="https://www.forbrug.dk">forbrug.dk</a>.
+    </p>
+</main>
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+</body>
+</html>
